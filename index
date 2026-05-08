@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <title>Controle de Compras</title>
+
+  <meta name="theme-color" content="#ff7a00">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Controle de Compras">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <style>
+    :root {
+      --orange: #ff7a00;
+      --orange2: #ff9200;
+      --black: #050505;
+      --white: #ffffff;
+      --muted: #6b7280;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #050505;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .splash {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255, 122, 0, .30), transparent 30%),
+        radial-gradient(circle at 85% 10%, rgba(255, 255, 255, .08), transparent 28%),
+        linear-gradient(135deg, #050505, #131313 55%, #ff7a00);
+      display: grid;
+      place-items: center;
+      transition: opacity .35s ease, visibility .35s ease;
+    }
+
+    .splash.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .splash-card {
+      width: min(92vw, 390px);
+      background: rgba(255, 255, 255, .95);
+      border-radius: 32px;
+      padding: 32px;
+      text-align: center;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, .40);
+      animation: subir .45s ease both;
+      border: 1px solid rgba(255, 122, 0, .25);
+    }
+
+    .logo-box {
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 18px;
+      border-radius: 30px;
+      background: #ff7a00;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      box-shadow: 0 20px 45px rgba(255, 122, 0, .35);
+      animation: pulseLogo 1.1s ease both;
+    }
+
+    .logo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .splash-card h1 {
+      margin: 0;
+      font-size: 26px;
+      letter-spacing: -.04em;
+      color: #111;
+    }
+
+    .splash-card p {
+      margin: 8px 0 20px;
+      color: #6b7280;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .loader {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 4px solid #ffe0bf;
+      border-top-color: #ff7a00;
+      margin: 0 auto;
+      animation: girar .8s linear infinite;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100dvh;
+      border: 0;
+      display: block;
+      background: #ffffff;
+    }
+
+    .fallback {
+      position: fixed;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      z-index: 30;
+      display: none;
+      background: #111;
+      color: white;
+      border: 1px solid rgba(255, 122, 0, .55);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 18px 45px rgba(0,0,0,.35);
+    }
+
+    .fallback b {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .fallback p {
+      margin: 0 0 10px;
+      color: #d1d5db;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .fallback a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      border-radius: 14px;
+      padding: 11px 14px;
+      background: linear-gradient(135deg, #ff7a00, #ff9200);
+      color: #111;
+      font-weight: 900;
+    }
+
+    @keyframes girar { to { transform: rotate(360deg); } }
+
+    @keyframes subir {
+      from { opacity: 0; transform: translateY(12px) scale(.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes pulseLogo {
+      from { opacity: 0; transform: scale(.88) rotate(-3deg); }
+      to { opacity: 1; transform: scale(1) rotate(0); }
+    }
+
+    @media(max-width: 700px) {
+      iframe { height: 100svh; }
+
+      .splash-card {
+        padding: 24px;
+      }
+
+      .logo-box {
+        width: 118px;
+        height: 118px;
+        border-radius: 26px;
+      }
+
+      .splash-card h1 {
+        font-size: 23px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="splash" class="splash">
+    <div class="splash-card">
+      <div class="logo-box">
+        <img src="https://i.ibb.co/sdcw1bhY/images.png" alt="Logo">
+      </div>
+
+      <h1>Controle de compras</h1>
+      <p>Mercado Livre • Recepção</p>
+
+      <div class="loader"></div>
+    </div>
+  </div>
+
+  <iframe
+    id="appFrame"
+    src="https://script.google.com/macros/s/AKfycby6O5fd_v_xJPwIS1g_Lvc0YQOlxbsP3v9nsw_Ih5ZU6RkxCR056qwHbOvj0E0NkRR2/exec"
+    allow="clipboard-read; clipboard-write; fullscreen"
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+
+  <div id="fallback" class="fallback">
+    <b>Não carregou corretamente?</b>
+    <p>Abra o sistema diretamente pelo link do Apps Script.</p>
+
+    <a href="https://script.google.com/macros/s/AKfycby6O5fd_v_xJPwIS1g_Lvc0YQOlxbsP3v9nsw_Ih5ZU6RkxCR056qwHbOvj0E0NkRR2/exec">
+      Abrir sistema
+    </a>
+  </div>
+
+  <script>
+    const APP_URL = "https://script.google.com/macros/s/AKfycby6O5fd_v_xJPwIS1g_Lvc0YQOlxbsP3v9nsw_Ih5ZU6RkxCR056qwHbOvj0E0NkRR2/exec";
+
+    const iframe = document.getElementById('appFrame');
+    const splash = document.getElementById('splash');
+    const fallback = document.getElementById('fallback');
+
+    let carregou = false;
+
+    iframe.addEventListener('load', function() {
+      carregou = true;
+
+      setTimeout(function() {
+        splash.classList.add('hidden');
+      }, 700);
+    });
+
+    setTimeout(function() {
+      if (!carregou) {
+        fallback.style.display = 'block';
+      }
+    }, 9000);
+
+    window.addEventListener('online', function() {
+      iframe.src = APP_URL;
+    });
+  </script>
+</body>
+</html>
